@@ -34,14 +34,14 @@
             let viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
 
             // Fetch PDB and render
-            fetch("https://files.rcsb.org/download/3K8Y.pdb")
+            fetch("https://files.rcsb.org/download/1CRN.pdb")
                 .then(response => response.text())
                 .then(pdbData => {
                     console.log("✅ PDB file loaded.");
                     
                     let model = viewer.addModel(pdbData, "pdb");
 
-                    // Minimal cartoon representation (no surface, no stick rendering)
+                    // Simple cartoon representation
                     viewer.setStyle({}, { cartoon: { color: "spectrum" } });
 
                     // Zoom and render
