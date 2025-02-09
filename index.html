@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Molecule Viewer</title>
+    <title>3Dmol.js Debug</title>
     <script src="https://3dmol.org/build/3Dmol-min.js"></script>
     <style>
         html, body {
@@ -31,45 +31,25 @@
         document.addEventListener("DOMContentLoaded", function () {
             console.log("🚀 Initializing 3Dmol.js viewer...");
 
-            if (typeof $3Dmol === 'undefined') {
-                console.error("❌ 3Dmol.js failed to load! Check script source.");
-                return;
-            }
-
             let viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
 
-            console.log("✅ 3Dmol.js loaded successfully. Fetching PDB file...");
-
-            // Fetch the PDB file from RCSB and load it into 3Dmol.js
+            // Fetch PDB and render
             fetch("https://files.rcsb.org/download/3K8Y.pdb")
                 .then(response => response.text())
                 .then(pdbData => {
-                    console.log("✅ PDB file loaded successfully.");
-
+                    console.log("✅ PDB file loaded.");
+                    
                     let model = viewer.addModel(pdbData, "pdb");
 
-                    // Apply cartoon style colored by secondary structure
-                    model.setStyle({}, { cartoon: { colorfunc: $3Dmol.ssColor } });
-
-                    // Add a translucent surface
-                    model.addSurface($3Dmol.SurfaceType.SAS, { opacity: 0.5 }, {});
-
-                    // Display ligands & ions in ball-and-stick
-                    model.setStyle({ resn: ["GNP", "MG", "NA", "K", "CA", "ZN"] }, 
-                                   { stick: { colorscheme: "element" } });
-
-                    // Hide acetate (ACT)
-                    model.setStyle({ resn: "ACT" }, {});
+                    // Minimal cartoon representation (no surface, no stick rendering)
+                    viewer.setStyle({}, { cartoon: { color: "spectrum" } });
 
                     // Zoom and render
                     viewer.zoomTo();
                     viewer.render();
-                    console.log("✅ Visualization applied successfully.");
+                    console.log("✅ Molecule displayed.");
                 })
-                .catch(error => console.error("❌ Error fetching PDB file:", error));
-
-            // Enable spinning
-            viewer.spin("y", 0.5);
+                .catch(error => console.error("❌ Error loading PDB:", error));
         });
     </script>
 </body>
