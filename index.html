@@ -33,7 +33,7 @@
 
             let viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
 
-            // Fetch PDB and render
+            // Fetch PDB and render (Using 1CRN for debugging)
             fetch("https://files.rcsb.org/download/1CRN.pdb")
                 .then(response => response.text())
                 .then(pdbData => {
@@ -41,7 +41,7 @@
                     
                     let model = viewer.addModel(pdbData, "pdb");
 
-                    // Simple cartoon representation
+                    // Simple cartoon representation (NO SURFACE)
                     viewer.setStyle({}, { cartoon: { color: "spectrum" } });
 
                     // Zoom and render
@@ -50,6 +50,9 @@
                     console.log("✅ Molecule displayed.");
                 })
                 .catch(error => console.error("❌ Error loading PDB:", error));
+
+            // Enable spinning
+            viewer.spin("y", 0.5);
         });
     </script>
 </body>
