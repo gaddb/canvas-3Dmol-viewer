@@ -38,29 +38,35 @@
 
             let viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
 
-            console.log("✅ 3Dmol.js loaded successfully.");
+            console.log("✅ 3Dmol.js loaded successfully. Fetching PDB file...");
 
-            viewer.addModelFromPDB("3K8Y", function(model) {
-                console.log("✅ Model 3K8Y loaded");
+            // Fetch the PDB file from RCSB and load it into 3Dmol.js
+            fetch("https://files.rcsb.org/download/3K8Y.pdb")
+                .then(response => response.text())
+                .then(pdbData => {
+                    console.log("✅ PDB file loaded successfully.");
 
-                // Apply cartoon style colored by secondary structure
-                model.setStyle({}, { cartoon: { colorfunc: $3Dmol.ssColor } });
+                    let model = viewer.addModel(pdbData, "pdb");
 
-                // Add a translucent surface
-                model.addSurface($3Dmol.SurfaceType.SAS, { opacity: 0.5 }, {});
+                    // Apply cartoon style colored by secondary structure
+                    model.setStyle({}, { cartoon: { colorfunc: $3Dmol.ssColor } });
 
-                // Display ligands & ions in ball-and-stick
-                model.setStyle({ resn: ["GNP", "MG", "NA", "K", "CA", "ZN"] }, 
-                               { stick: { colorscheme: "element" } });
+                    // Add a translucent surface
+                    model.addSurface($3Dmol.SurfaceType.SAS, { opacity: 0.5 }, {});
 
-                // Hide acetate (ACT)
-                model.setStyle({ resn: "ACT" }, {});
+                    // Display ligands & ions in ball-and-stick
+                    model.setStyle({ resn: ["GNP", "MG", "NA", "K", "CA", "ZN"] }, 
+                                   { stick: { colorscheme: "element" } });
 
-                // Zoom and render
-                viewer.zoomTo();
-                viewer.render();
-                console.log("✅ Visualization applied successfully.");
-            });
+                    // Hide acetate (ACT)
+                    model.setStyle({ resn: "ACT" }, {});
+
+                    // Zoom and render
+                    viewer.zoomTo();
+                    viewer.render();
+                    console.log("✅ Visualization applied successfully.");
+                })
+                .catch(error => console.error("❌ Error fetching PDB file:", error));
 
             // Enable spinning
             viewer.spin("y", 0.5);
