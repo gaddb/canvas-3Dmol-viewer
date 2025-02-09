@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Molecule Viewer</title>
-    <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+    <script src="https://3dmol.org/build/3Dmol-min.js"></script>
     <style>
-        /* Ensure full-page scaling */
         html, body {
             width: 100%;
             height: 100%;
@@ -30,38 +29,37 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            console.log("Initializing 3Dmol.js viewer...");
+            console.log("🚀 Initializing 3Dmol.js viewer...");
 
             if (typeof $3Dmol === 'undefined') {
-                console.error("3Dmol.js failed to load!");
+                console.error("❌ 3Dmol.js failed to load! Check script source.");
                 return;
             }
 
-            // Create the 3Dmol.js viewer
             let viewer = $3Dmol.createViewer("viewer", { backgroundColor: "white" });
 
-            // Load PDB ID: 3K8Y
+            console.log("✅ 3Dmol.js loaded successfully.");
+
             viewer.addModelFromPDB("3K8Y", function(model) {
-                console.log("Model 3K8Y loaded");
+                console.log("✅ Model 3K8Y loaded");
 
                 // Apply cartoon style colored by secondary structure
                 model.setStyle({}, { cartoon: { colorfunc: $3Dmol.ssColor } });
 
-                // Add a translucent surface to the protein
-                model.addSurface($3Dmol.SurfaceType.SAS, 
-                    { opacity: 0.5 }, {});  
+                // Add a translucent surface
+                model.addSurface($3Dmol.SurfaceType.SAS, { opacity: 0.5 }, {});
 
-                // Display GNP ligand and metal ions in ball-and-stick format (colored by element)
+                // Display ligands & ions in ball-and-stick
                 model.setStyle({ resn: ["GNP", "MG", "NA", "K", "CA", "ZN"] }, 
-                    { stick: { colorscheme: "element" } });
+                               { stick: { colorscheme: "element" } });
 
                 // Hide acetate (ACT)
                 model.setStyle({ resn: "ACT" }, {});
 
-                // Finalize and render
+                // Zoom and render
                 viewer.zoomTo();
                 viewer.render();
-                console.log("Visualization applied");
+                console.log("✅ Visualization applied successfully.");
             });
 
             // Enable spinning
