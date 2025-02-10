@@ -27,14 +27,14 @@
             position: relative;
         }
         .button-container {
-            margin-top: 10px;
+            margin-top: 5px;
         }
         .toggle-button {
             background-color: #007BFF;
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 6px 12px;
+            font-size: 14px;
             cursor: pointer;
             border-radius: 5px;
         }
@@ -86,12 +86,12 @@
                     });
 
                     // 🔴 REMOVE ACETATE (ACT) FROM VIEW
-                    viewer.setStyle({ resn: "ACT" }, {});  // This makes acetate invisible
+                    viewer.setStyle({ resn: "ACT" }, { cartoon: { hidden: true } }); // Ensures acetate is fully hidden
 
                     // 🔵 ADD A TRANSPARENT SURFACE TO ALL RESIDUES EXCEPT 528
                     viewer.addSurface($3Dmol.SurfaceType.SAS, 
-                        { opacity: 0.5, color: "gray" }, 
-                        { resi: -528 } // Excludes residue 528 from the surface
+                        { opacity: 0.7, color: "gray" }, 
+                        { not: { resi: 528 } } // Excludes residue 528 from the surface
                     );
 
                     // Zoom and render
