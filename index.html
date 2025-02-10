@@ -46,8 +46,8 @@
                     
                     let model = viewer.addModel(pdbData, "pdb");
 
-                    // Apply cartoon representation
-                    viewer.setStyle({}, { cartoon: { color: "spectrum" } });
+                    // Apply white cartoon representation with trace and arrows
+                    viewer.setStyle({}, { cartoon: { color: "white", style: "trace", arrows: true } });
 
                     // Highlight Residue 528 in Ball-and-Stick
                     viewer.setStyle({ resi: 528 }, { stick: { colorscheme: "element" } });
