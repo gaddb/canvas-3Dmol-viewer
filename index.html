@@ -61,8 +61,11 @@
                     // Color specific residues Violet
                     let violetResidues = [15,16,17,18,19,20,21,22,23,24,25,26,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,126,127,128,129,130,131,132,133,134,135,136,137,138,151,152,153,154,155,156,157,158,159,160,161,162,163,164];
                     violetResidues.forEach(res => {
-                        viewer.setStyle({ resi: res }, { cartoon: { color: "purple" } });
+                        viewer.setStyle({ resi: res }, { cartoon: { color: "violet" } });
                     });
+
+                    // 🔴 REMOVE ACETATE (ACT) FROM VIEW
+                    viewer.setStyle({ resn: "ACT" }, {});  // This makes acetate invisible
 
                     // Zoom and render
                     viewer.zoomTo();
