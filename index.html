@@ -17,6 +17,7 @@
             padding: 0;
             overflow: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
@@ -25,12 +26,32 @@
             width: 800px;
             position: relative;
         }
+        .button-container {
+            margin-top: 10px;
+        }
+        .toggle-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
 
     <!-- 3Dmol.js Viewer Container -->
     <div id="viewer" class="viewer-container"></div>
+
+    <!-- Toggle Spin Button -->
+    <div class="button-container">
+        <button id="toggleSpin" class="toggle-button">Toggle Spin</button>
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -67,13 +88,30 @@
                     // 🔴 REMOVE ACETATE (ACT) FROM VIEW
                     viewer.setStyle({ resn: "ACT" }, {});  // This makes acetate invisible
 
+                    // 🔵 ADD A TRANSPARENT SURFACE TO ALL RESIDUES EXCEPT 528
+                    viewer.addSurface($3Dmol.SurfaceType.SAS, 
+                        { opacity: 0.5, color: "gray" }, 
+                        { resi: -528 } // Excludes residue 528 from the surface
+                    );
+
                     // Zoom and render
                     viewer.zoomTo();
                     viewer.render();
                     console.log("✅ Custom styles applied.");
 
-                    // Enable spinning
+                    // Enable spinning initially
+                    let isSpinning = true;
                     viewer.spin("y", 0.3);
+
+                    // Toggle spin on/off when button is clicked
+                    document.getElementById("toggleSpin").addEventListener("click", function() {
+                        if (isSpinning) {
+                            viewer.spin(false); // Stop spinning
+                        } else {
+                            viewer.spin("y", 0.3); // Start spinning
+                        }
+                        isSpinning = !isSpinning; // Toggle state
+                    });
                 })
                 .catch(error => console.error("❌ Error loading PDB:", error));
         });
